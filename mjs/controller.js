@@ -23,7 +23,7 @@ const hideSpinner = () => {
 }
 
 const renderErrorMsg = (error) => {
-  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Sorry', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
+  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
 }
 
 const listenInput = () => {
@@ -39,24 +39,23 @@ const listenInput = () => {
 
 // On response
 const onResponse = (response) => {
-  if (response.ok) {
+  if (response?.ok) {
     const contentType = response.headers.get('content-type')
-    if (contentType && contentType.includes('application/json')) {
-      getElById(resultId).innerHTML = new Template().htmlAlert('success', 'Done', 'Data loaded')
+    if (contentType?.includes('application/json')) {
+      getElById(errorId).innerHTML = new Template().htmlAlert('success', 'Done', `${response?.status}: ${response?.statusText} (data loaded)`)
       return response.json()
     }
   }
-  renderErrorMsg(response.error)
+  renderErrorMsg(`${response?.status}: ${response?.statusText}`)
 }
 
 // On fetch data
 const onFetchData = (json) => {
   STATE.data = json
-  if (STATE.data.length) {
+  if (STATE?.data?.length) {
     // Add event on input
     return
   }
-  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', 'Data not loaded')
 }
 
 class ApiService {
@@ -68,8 +67,8 @@ class ApiService {
     // .finally(() => STATE.isLoading = false)
   } */
   async getResource() {
-    showSpinner()
     try {
+      showSpinner()
       const response = await fetch(url)
       const data = await onResponse(response)
       const json = onFetchData(data)
@@ -77,7 +76,6 @@ class ApiService {
       listenInput()
       return json
     } catch (error) {
-      // getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', error)
       renderErrorMsg(error)
     } finally {
       hideSpinner()
@@ -109,25 +107,34 @@ const onFilterData = (startStr) => {
     )
     : []
 
-  renderHtml(matches)
+  renderErrorAndCards(matches)
 }
 
-// Render HTML
-const renderHtml = (matches) => {
-  getElById(resultId).innerHTML =
-    matches.length === 0
-      ? new Template().htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
-      : matches
-        .map(
-          ({
-            name,
-            email,
-            website,
-            company: { name: companyName },
-            company: { bs },
-          }) => new Template().htmlCard(name, email, website, companyName, bs)
-        )
-        .join(``)
+// Render error and Cards content
+const renderErrorAndCards = (matches) => {
+  let errorContent = ''
+  let cardsContent = ''
+
+  if (matches.length === 0) {
+    errorContent = new Template().htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
+    cardsContent = ''
+  } else {
+    errorContent = ''
+    cardsContent = getElById(resultId).innerHTML = matches
+      .map(
+        ({
+          name,
+          email,
+          website,
+          company: { name: companyName },
+          company: { bs },
+        }) => new Template().htmlCard(name, email, website, companyName, bs)
+      )
+      .join(``)
+  }
+
+  getElById(errorId).innerHTML = errorContent
+  getElById(resultId).innerHTML = cardsContent
 }
 
 export { setInitialState };
