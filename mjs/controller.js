@@ -1,6 +1,9 @@
-import config from './config.js'
-import template from './template.js'
-import { getElById, withStarts } from './util.js'
+import config from './config.js';
+import template from './template.js';
+import {
+  getElById,
+  withStarts,
+} from './util.js';
 
 const { url, searchId, resultId } = config
 const {
@@ -69,7 +72,7 @@ class ApiService {
     try {
       const response = await fetch(url)
       const data = await onResponse(response)
-      const json = await onFetchData(data)
+      const json = onFetchData(data)
       return json
     } catch (err) {
       console.error(err)
@@ -132,4 +135,4 @@ const renderHtml = (matches) => {
         .join(``)
 }
 
-export { setInitialState }
+export { setInitialState };
