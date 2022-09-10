@@ -1,5 +1,5 @@
 // Static templates
-const initial = /*html*/ `\
+const htmlContainer = /*html*/ `\
 <div class="container mt-5">
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10 m-auto">
@@ -29,7 +29,7 @@ const initial = /*html*/ `\
 //   </div>
 // </div>`
 
-const spinner = /*html*/ `\
+const htmlSpinner = /*html*/ `\
 <div class="d-flex justify-content-center py-4">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
@@ -43,7 +43,7 @@ const renderText = (text) => ( /*html*/ `\
 
 const renderHTML = (html) => html
 
-const alertMsg = (type = 'success', header = '', text = '', html = '') => ( /*html*/ `\
+const htmlAlert = (type = 'success', header = '', text = '', html = '') => ( /*html*/ `\
 <div class="alert alert-${type} my-3">
   <h5>${header}</h5>
   <hr/>
@@ -52,7 +52,7 @@ const alertMsg = (type = 'success', header = '', text = '', html = '') => ( /*ht
 </div>`
 )
 
-const renderCard = (name, email, website, companyName, bs) => ( /*html*/ `\
+const htmlCard = (name, email, website, companyName, bs) => ( /*html*/ `\
 <div class="card card-body my-3">
   <h5 class="card-subtitle my-2 text-warning">${name}</h5>
   <hr/>
@@ -65,8 +65,8 @@ const renderCard = (name, email, website, companyName, bs) => ( /*html*/ `\
 )
 
 export default {
-  initial,
-  spinner,
-  alertMsg,
-  renderCard,
+  htmlContainer,
+  htmlSpinner,
+  htmlAlert,
+  htmlCard,
 }

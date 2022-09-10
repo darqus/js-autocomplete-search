@@ -8,10 +8,10 @@ import {
 const { url, searchId, spinnerId, errorId, resultId } = config
 
 const {
-  initial,
-  spinner,
-  alertMsg,
-  renderCard,
+  htmlContainer,
+  htmlSpinner,
+  htmlAlert,
+  htmlCard,
 } = template
 
 const initialState = () => ({
@@ -30,7 +30,7 @@ const hideSpinner = () => {
 }
 
 const renderErrorMsg = (error) => {
-  getElById(errorId).innerHTML = alertMsg('danger', 'Sorry', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
+  getElById(errorId).innerHTML = htmlAlert('danger', 'Sorry', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
 }
 
 const listenInput = () => {
@@ -49,7 +49,7 @@ const onResponse = (response) => {
   if (response.ok) {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {
-      getElById(resultId).innerHTML = alertMsg('success', 'Done', 'Data loaded')
+      getElById(resultId).innerHTML = htmlAlert('success', 'Done', 'Data loaded')
       return response.json()
     }
   }
@@ -63,7 +63,7 @@ const onFetchData = (json) => {
     // Add event on input
     return
   }
-  getElById(errorId).innerHTML = alertMsg('danger', 'Error', 'Data not loaded')
+  getElById(errorId).innerHTML = htmlAlert('danger', 'Error', 'Data not loaded')
 }
 
 class ApiService {
@@ -84,7 +84,7 @@ class ApiService {
       listenInput()
       return json
     } catch (error) {
-      // getElById(errorId).innerHTML = alertMsg('danger', 'Error', error)
+      // getElById(errorId).innerHTML = htmlAlert('danger', 'Error', error)
       renderErrorMsg(error)
     } finally {
       hideSpinner()
@@ -94,10 +94,10 @@ class ApiService {
 }
 
 const setInitialState = async () => {
-  getElById(config.rootId).innerHTML = initial
+  getElById(config.rootId).innerHTML = htmlContainer
   document.title = getElById(config.headerId).innerText = config.pageTitle
   getElById(config.searchId).setAttribute('placeholder', config.textPlaceholder)
-  getElById(config.spinnerId).innerHTML = spinner
+  getElById(config.spinnerId).innerHTML = htmlSpinner
 
   // set pseudo timeout for set pseudo delay on loading data from API
   setTimeout(async () => {
@@ -123,7 +123,7 @@ const onFilterData = (startStr) => {
 const renderHtml = (matches) => {
   getElById(resultId).innerHTML =
     matches.length === 0
-      ? alertMsg('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
+      ? htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
       : matches
         .map(
           ({
@@ -132,7 +132,7 @@ const renderHtml = (matches) => {
             website,
             company: { name: companyName },
             company: { bs },
-          }) => renderCard(name, email, website, companyName, bs)
+          }) => htmlCard(name, email, website, companyName, bs)
         )
         .join(``)
 }
