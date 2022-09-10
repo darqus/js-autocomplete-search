@@ -49,19 +49,17 @@ const noDataMsg = /*html*/ `\
   <p>Data not loaded</p>
 </div>`
 
-// Dinamic templates
-const errorMsg = (url) => {
-  return /*html*/ `\
+// Dynamic templates
+const errorMsg = (url) => ( /*html*/ `\
 <div class="alert alert-danger my-3">
   <h5>Sorry</h5>
   <hr/>
   <p>Could not fetch data from</p>
   <h5>${url}</h5>
 </div>`
-}
+)
 
-const renderMain = (name, email, website, companyName, bs) => {
-  return /*html*/ `\
+const renderMain = (name, email, website, companyName, bs) => ( /*html*/ `\
 <div class="card card-body my-3">
   <h5 class="card-subtitle my-2 text-warning">${name}</h5>
   <hr/>
@@ -71,7 +69,7 @@ const renderMain = (name, email, website, companyName, bs) => {
   <a href="mailto:${email}" target="_blank">${email}</a>
   <a href="//${website}" target="_blank">${website}</a>
 </div>`
-}
+)
 
 export default {
   initial,
