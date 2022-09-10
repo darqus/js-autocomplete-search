@@ -1,18 +1,11 @@
 import config from './config.js';
-import template from './template.js';
+import Template from './template.js';
 import {
   getElById,
   withStarts,
 } from './util.js';
 
-const { url, searchId, spinnerId, errorId, resultId } = config
-
-const {
-  htmlContainer,
-  htmlSpinner,
-  htmlAlert,
-  htmlCard,
-} = template
+const { url, searchId, spinnerId, errorId, headerId, rootId, resultId, pageTitle, textPlaceholder, invisibleClassName } = config
 
 const initialState = () => ({
   timeout: null,
@@ -22,15 +15,15 @@ const initialState = () => ({
 const STATE = initialState()
 
 const showSpinner = () => {
-  getElById(spinnerId).classList.remove(config.invisibleClassName)
+  getElById(spinnerId).classList.remove(invisibleClassName)
 }
 
 const hideSpinner = () => {
-  getElById(spinnerId).classList.add(config.invisibleClassName)
+  getElById(spinnerId).classList.add(invisibleClassName)
 }
 
 const renderErrorMsg = (error) => {
-  getElById(errorId).innerHTML = htmlAlert('danger', 'Sorry', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
+  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Sorry', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
 }
 
 const listenInput = () => {
@@ -49,7 +42,7 @@ const onResponse = (response) => {
   if (response.ok) {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {
-      getElById(resultId).innerHTML = htmlAlert('success', 'Done', 'Data loaded')
+      getElById(resultId).innerHTML = new Template().htmlAlert('success', 'Done', 'Data loaded')
       return response.json()
     }
   }
@@ -63,7 +56,7 @@ const onFetchData = (json) => {
     // Add event on input
     return
   }
-  getElById(errorId).innerHTML = htmlAlert('danger', 'Error', 'Data not loaded')
+  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', 'Data not loaded')
 }
 
 class ApiService {
@@ -80,11 +73,11 @@ class ApiService {
       const response = await fetch(url)
       const data = await onResponse(response)
       const json = onFetchData(data)
-      getElById(config.searchId).removeAttribute('disabled')
+      getElById(searchId).removeAttribute('disabled')
       listenInput()
       return json
     } catch (error) {
-      // getElById(errorId).innerHTML = htmlAlert('danger', 'Error', error)
+      // getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', error)
       renderErrorMsg(error)
     } finally {
       hideSpinner()
@@ -94,10 +87,10 @@ class ApiService {
 }
 
 const setInitialState = async () => {
-  getElById(config.rootId).innerHTML = htmlContainer
-  document.title = getElById(config.headerId).innerText = config.pageTitle
-  getElById(config.searchId).setAttribute('placeholder', config.textPlaceholder)
-  getElById(config.spinnerId).innerHTML = htmlSpinner
+  getElById(rootId).innerHTML = new Template().htmlContainer()
+  document.title = getElById(headerId).innerText = pageTitle
+  getElById(searchId).setAttribute('placeholder', textPlaceholder)
+  getElById(spinnerId).innerHTML = new Template().htmlSpinner()
 
   // set pseudo timeout for set pseudo delay on loading data from API
   setTimeout(async () => {
@@ -123,7 +116,7 @@ const onFilterData = (startStr) => {
 const renderHtml = (matches) => {
   getElById(resultId).innerHTML =
     matches.length === 0
-      ? htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
+      ? new Template().htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
       : matches
         .map(
           ({
@@ -132,7 +125,7 @@ const renderHtml = (matches) => {
             website,
             company: { name: companyName },
             company: { bs },
-          }) => htmlCard(name, email, website, companyName, bs)
+          }) => new Template().htmlCard(name, email, website, companyName, bs)
         )
         .join(``)
 }

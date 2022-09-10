@@ -1,5 +1,5 @@
 // Static templates
-const htmlContainer = /*html*/ `\
+const htmlContainer = () => /*html*/ `\
 <div class="container mt-5">
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10 m-auto">
@@ -19,7 +19,7 @@ const htmlContainer = /*html*/ `\
   </div>
 </div>`
 
-// const spinner = /*html*/ `\
+// const htmlSpinner = () => /*html*/ `\
 // <div class="d-flex">
 //   <div class="lds-css mt-5">
 //     <div class="lds-double-ring">
@@ -29,7 +29,7 @@ const htmlContainer = /*html*/ `\
 //   </div>
 // </div>`
 
-const htmlSpinner = /*html*/ `\
+const htmlSpinner = () => /*html*/ `\
 <div class="d-flex justify-content-center py-4">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
@@ -64,9 +64,20 @@ const htmlCard = (name, email, website, companyName, bs) => ( /*html*/ `\
 </div>`
 )
 
-export default {
-  htmlContainer,
-  htmlSpinner,
-  htmlAlert,
-  htmlCard,
+export default class Template {
+  htmlContainer() {
+    return htmlContainer()
+  }
+
+  htmlSpinner() {
+    return htmlSpinner()
+  }
+
+  htmlAlert(...args) {
+    return htmlAlert(...args)
+  }
+
+  htmlCard(...args) {
+    return htmlCard(...args)
+  }
 }
