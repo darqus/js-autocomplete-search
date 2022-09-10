@@ -1,11 +1,19 @@
-import config from './config.js';
-import Template from './template.js';
-import {
-  getElById,
-  withStarts,
-} from './util.js';
+import config from './config.js'
+import Template from './template.js'
+import { getElById, withStarts } from './util.js'
 
-const { url, searchId, spinnerId, errorId, headerId, rootId, resultId, pageTitle, textPlaceholder, invisibleClassName } = config
+const {
+  url,
+  searchId,
+  spinnerId,
+  errorId,
+  headerId,
+  rootId,
+  resultId,
+  pageTitle,
+  textPlaceholder,
+  invisibleClassName,
+} = config
 
 const initialState = () => ({
   timeout: null,
@@ -23,7 +31,12 @@ const hideSpinner = () => {
 }
 
 const renderErrorMsg = (error) => {
-  getElById(errorId).innerHTML = new Template().htmlAlert('danger', 'Error', error, `<p>Could not fetch data from</p><h5>${url}</h5>`)
+  getElById(errorId).innerHTML = new Template().htmlAlert(
+    'danger',
+    'Error',
+    error,
+    `<p>Could not fetch data from</p><h5>${url}</h5>`
+  )
 }
 
 const listenInput = () => {
@@ -42,7 +55,11 @@ const onResponse = (response) => {
   if (response?.ok) {
     const contentType = response.headers.get('content-type')
     if (contentType?.includes('application/json')) {
-      getElById(errorId).innerHTML = new Template().htmlAlert('success', 'Done', `${response?.status}: ${response?.statusText} (data loaded)`)
+      getElById(errorId).innerHTML = new Template().htmlAlert(
+        'success',
+        'Done',
+        `${response?.status}: ${response?.statusText} (data loaded)`
+      )
       return response.json()
     }
   }
@@ -100,12 +117,15 @@ const setInitialState = async () => {
 
 // On fIlter data
 const onFilterData = (searchStr) => {
-  const matches = searchStr !== ``
-    ? STATE.data.filter(
-      ({ name, company: { name: companyName } }) =>
-        withStarts(name.split(' ')[0], searchStr) || withStarts(name.split(' ')[1], searchStr) || withStarts(companyName, searchStr)
-    )
-    : []
+  const matches =
+    searchStr !== ``
+      ? STATE.data.filter(
+          ({ name, company: { name: companyName } }) =>
+            withStarts(name.split(' ')[0], searchStr) ||
+            withStarts(name.split(' ')[1], searchStr) ||
+            withStarts(companyName, searchStr)
+        )
+      : []
 
   renderErrorAndCards(matches)
 }
@@ -116,7 +136,12 @@ const renderErrorAndCards = (matches) => {
   let cardsContent = ''
 
   if (matches.length === 0) {
-    errorContent = new Template().htmlAlert('warning', 'Sorry', '', `<p>Could not found data</p><p>Try type another query</p>`)
+    errorContent = new Template().htmlAlert(
+      'warning',
+      'Sorry',
+      '',
+      `<p>Could not found data</p><p>Try type another query</p>`
+    )
     cardsContent = ''
   } else {
     errorContent = ''
@@ -137,4 +162,4 @@ const renderErrorAndCards = (matches) => {
   getElById(resultId).innerHTML = cardsContent
 }
 
-export { setInitialState };
+export { setInitialState }

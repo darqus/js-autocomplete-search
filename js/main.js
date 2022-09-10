@@ -1,3 +1,3 @@
-import { setInitialState } from '../mjs/controller.js';
+import { setInitialState } from '../mjs/controller.js'
 
 setInitialState()

@@ -37,22 +37,25 @@ const htmlSpinner = () => /*html*/ `\
 </div>`
 
 // Dynamic templates
-const renderText = (text) => ( /*html*/ `\
+const renderText = (text) => /*html*/ `\
 <p>${text}</p>`
-)
 
 const renderHTML = (html) => html
 
-const htmlAlert = (type = 'success', header = '', text = '', html = '') => ( /*html*/ `\
+const htmlAlert = (
+  type = 'success',
+  header = '',
+  text = '',
+  html = ''
+) => /*html*/ `\
 <div class="alert alert-${type} my-3">
   <h5>${header}</h5>
   <hr/>
   ${renderText(text)}
   ${renderHTML(html)}
 </div>`
-)
 
-const htmlCard = (name, email, website, companyName, bs) => ( /*html*/ `\
+const htmlCard = (name, email, website, companyName, bs) => /*html*/ `\
 <div class="card card-body my-3">
   <h5 class="card-subtitle my-2 text-warning">${name}</h5>
   <hr/>
@@ -62,7 +65,6 @@ const htmlCard = (name, email, website, companyName, bs) => ( /*html*/ `\
   <a href="mailto:${email}" target="_blank">${email}</a>
   <a href="//${website}" target="_blank">${website}</a>
 </div>`
-)
 
 export default class Template {
   htmlContainer() {
