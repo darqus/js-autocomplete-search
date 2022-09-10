@@ -75,24 +75,26 @@ export default class Template {
     return htmlSpinner()
   }
 
+  /** @typedef { import('../ts/types').Alert } Alert */
   /**
-   * @param { string } type - ['success', 'warning', 'danger', ...]
-   * @param { string } header - header of alert
-   * @param { string } text - content alert message in p
-   * @param { string } html - content alert message in raw html
+   * @param {Alert} type - ['success', 'warning', 'danger', ...]
+   * @param {Alert} header - header of alert
+   * @param {Alert} text - content alert message in p
+   * @param {Alert} html - content alert message in raw html
    */
-  htmlAlert(...args) {
-    return htmlAlert(...args)
+  htmlAlert(type, header, text, html) {
+    return htmlAlert(type, header, text, html)
   }
 
+  /** @typedef { import('../ts/types').User } User */
   /**
-   * @param { string } name - name of user
-   * @param { string } email - email of user
-   * @param { string } website - website of user
-   * @param { string } companyName - companyName of user
-   * @param { string } bs - bs of user
+   * @param {User} name - name of user
+   * @param {User} email - email of user
+   * @param {User} website - website of user
+   * @param {User} companyName - companyName of user
+   * @param {User} bs - bs of user
    */
-  htmlCard(...args) {
-    return htmlCard(...args)
+  htmlCard(name, email, website, companyName, bs) {
+    return htmlCard(name, email, website, companyName, bs)
   }
 }
