@@ -145,7 +145,7 @@ const renderErrorAndCards = (matches) => {
     cardsContent = ''
   } else {
     errorContent = ''
-    cardsContent = getElById(resultId).innerHTML = matches
+    cardsContent = matches
       .map(
         ({
           name,
