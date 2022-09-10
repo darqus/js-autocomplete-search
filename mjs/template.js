@@ -75,10 +75,23 @@ export default class Template {
     return htmlSpinner()
   }
 
+  /**
+   * @param { string } type - ['success', 'warning', 'danger', ...]
+   * @param { string } header - header of alert
+   * @param { string } text - content alert message in p
+   * @param { string } html - content alert message in raw html
+   */
   htmlAlert(...args) {
     return htmlAlert(...args)
   }
 
+  /**
+   * @param { string } name - name of user
+   * @param { string } email - email of user
+   * @param { string } website - website of user
+   * @param { string } companyName - companyName of user
+   * @param { string } bs - bs of user
+   */
   htmlCard(...args) {
     return htmlCard(...args)
   }
