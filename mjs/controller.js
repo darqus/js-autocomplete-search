@@ -99,11 +99,11 @@ const setInitialState = async () => {
 }
 
 // On fIlter data
-const onFilterData = (startStr) => {
-  const matches = startStr !== ``
+const onFilterData = (searchStr) => {
+  const matches = searchStr !== ``
     ? STATE.data.filter(
       ({ name, company: { name: companyName } }) =>
-        withStarts(name, startStr) || withStarts(companyName, startStr)
+        withStarts(name.split(' ')[0], searchStr) || withStarts(name.split(' ')[1], searchStr) || withStarts(companyName, searchStr)
     )
     : []
 
