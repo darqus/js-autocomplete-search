@@ -52,7 +52,7 @@ const alertMsg = (type = 'success', header = '', text = '', html = '') => ( /*ht
 </div>`
 )
 
-const renderMain = (name, email, website, companyName, bs) => ( /*html*/ `\
+const renderCard = (name, email, website, companyName, bs) => ( /*html*/ `\
 <div class="card card-body my-3">
   <h5 class="card-subtitle my-2 text-warning">${name}</h5>
   <hr/>
@@ -68,5 +68,5 @@ export default {
   initial,
   spinner,
   alertMsg,
-  renderMain,
+  renderCard,
 }

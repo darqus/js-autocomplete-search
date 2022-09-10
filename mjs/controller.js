@@ -11,7 +11,7 @@ const {
   initial,
   spinner,
   alertMsg,
-  renderMain,
+  renderCard,
 } = template
 
 const initialState = () => ({
@@ -132,7 +132,7 @@ const renderHtml = (matches) => {
             website,
             company: { name: companyName },
             company: { bs },
-          }) => renderMain(name, email, website, companyName, bs)
+          }) => renderCard(name, email, website, companyName, bs)
         )
         .join(``)
 }
